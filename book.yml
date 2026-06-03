@@ -16,3 +16,8 @@ chapters:
   - conclusion.md
   - appendix:
     - libgc-reference.md
+
+repository: "https://github.com/kolanglab/book_Conservative_GC"
+
+github_review:
+  enabled: true
