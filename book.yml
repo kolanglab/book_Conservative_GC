@@ -1,0 +1,18 @@
+title: "保守的GC入門"
+author: "ligarb (AI生成)"
+language: "ja"
+ai_generated: true
+chapter_numbers: true
+bibliography: references.bib
+chapters:
+  - cover: cover.md
+  - introduction.md
+  - gc-algorithms.md
+  - what-is-conservative.md
+  - libgc-basics.md
+  - libgc-internals.md
+  - theory-of-conservative.md
+  - integrating.md
+  - conclusion.md
+  - appendix:
+    - libgc-reference.md
