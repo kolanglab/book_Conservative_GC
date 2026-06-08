@@ -1,4 +1,5 @@
 title: "保守的GC入門"
+description: "保守的 GC を libgc で作る方法と、その裏側の理論"
 author: "ligarb (AI生成)"
 language: "ja"
 ai_generated: true
