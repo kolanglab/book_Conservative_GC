@@ -9,13 +9,13 @@
 ## libgc とは
 
 libgc は、C と C++ のための保守的なごみ収集ライブラリです。Hans Boehm、
-Alan Demers、Mark Weiser らの研究 [Boehm and Weiser](#cite:boehm1988) を
+Alan Demers、Mark Weiser らの研究 [](#cite:boehm1988) を
 出発点に、長年にわたって開発が続けられてきました。今日では多くの実用
 ソフトウェアで使われています。たとえば、
 
 - GNU の言語処理系の一部（過去の GCJ など）
 - いくつかの Scheme / Lisp 処理系（前章で触れた Bartlett の Scheme→C を
-  含む [Bartlett](#cite:bartlett1989)）
+  含む [](#cite:bartlett1989)）
 - 各種スクリプト言語や組み込み言語のランタイム
 
 などです。「既存の C コードに、`malloc`/`free` を書き換えるだけで GC を
@@ -120,6 +120,19 @@ cc -I/usr/local/include -o gctest gctest.c -L/usr/local/lib -lgc
 `malloc`→`GC_MALLOC` の置き換えだけです。これが「非協力的な環境でも動く」
 保守的GCの威力です。
 
+> [!NOTE]
+> ただし「置き換えるだけで**常に**正しくなる」わけではありません。ポインタを
+> 整数に変換して加工するコード（[](theory-of-conservative.md) の「見えない
+> ポインタ」）、独自のメモリアロケータ、`free` を前提に設計されたライブラリ、
+> スレッド（[](integrating.md)）などでは追加の注意が要ります。また、`malloc`
+> と `GC_MALLOC` を**混在**させる場合は規則があります——`GC_MALLOC` した領域を
+> `free` してはいけませんし、`malloc` した領域は GC は解放してくれません。
+> さらに重要なのは、**libgc は通常の `malloc` ヒープを走査しない**ことです。
+> GC オブジェクトへの唯一の参照を `malloc` した領域の中にだけ置くと、GC から
+> 見えず回収されてしまいます（必要なら `GC_add_roots` でその領域を走査対象に
+> 登録します）。libgc は手軽ですが、C のメモリ管理の問題をすべて自動で
+> 解決する魔法ではありません。
+
 ## 確保関数の使い分け：ポインタを含むか含まないか
 
 libgc には用途別の確保関数があります。中でも重要なのが
@@ -174,8 +187,10 @@ printf("heap=%zu free=%zu\n", (size_t)heap, (size_t)free);
 ```
 
 `GC_FREE(p)` で明示的に解放することもできますが、保守的GCの利点を捨てる
-ことになるので、通常は使いません。むしろ、確保はすべて GC に任せ、解放を
-書かないのが libgc 流のスタイルです。
+ことになるので、通常は使いません。`GC_FREE` した領域をあとで参照すれば、
+通常の `free` と同じ use-after-free です——手動管理の危険がそっくり戻って
+きます。むしろ、確保はすべて GC に任せ、解放を書かないのが libgc 流の
+スタイルです。
 
 ここまでで、libgc を「使う」側の基本は身につきました。`malloc` を置き
 換えるだけで GC が手に入る——この手軽さの裏で、libgc はいったいどんな

@@ -98,7 +98,7 @@ end
 見えるか」だけで判定します。だからこそ、コンパイラの協力なしで、つまり
 **GC を想定していない環境（uncooperative environment）でも動く** のです。
 この発想を実用化したのが、Hans Boehm と Mark Weiser の1988年の論文
-[Boehm and Weiser](#cite:boehm1988) でした。論文タイトルの "uncooperative
+[](#cite:boehm1988) でした。論文タイトルの "uncooperative
 environment（非協力的な環境）" とは、まさに「GC に協力してくれない C の
 ような環境」を指しています。
 
@@ -129,7 +129,7 @@ environment（非協力的な環境）" とは、まさに「GC に協力して�
 ではアドレス空間が広大なので、ランダムな整数がたまたま有効なヒープ
 アドレスと一致する確率は極めて小さくなります。Boehm らの測定や Zorn の
 評価でも、多くの実プログラムで保守的GCは実用的に機能することが示されて
-います [Zorn](#cite:zorn1993)。
+います [](#cite:zorn1993)。
 
 ## あいまいなルートと「動かせない」という制約
 
@@ -153,8 +153,8 @@ environment（非協力的な環境）" とは、まさに「GC に協力して�
 2. **一部だけ動かす設計（mostly-copying GC）**：あいまいな参照に指された
    オブジェクトだけはその場に固定（ピン留め, pinning）し、それ以外は
    コピーGCで動かす。Joel Bartlett が提案した手法です
-   [Bartlett](#cite:bartlett1988)。彼はこれを Scheme から C へのコンパイラ
-   で実際に用いました [Bartlett](#cite:bartlett1989)。
+   [](#cite:bartlett1988)。彼はこれを Scheme から C へのコンパイラ
+   で実際に用いました [](#cite:bartlett1989)。
 
 「mostly-copying（おおむねコピー）」という名前は、「あいまいな参照に
 指された一部を除いて、おおむねコピーする」という折衷を表しています。
